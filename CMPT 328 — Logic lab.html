@@ -1,0 +1,558 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title>CMPT 328 — Logic lab</title>
+        <link rel="stylesheet" href="CMPT%20328%20%E2%80%94%20Logic%20lab_files/course.css">
+        <link rel="stylesheet" href="CMPT%20328%20%E2%80%94%20Logic%20lab_files/highlighting.css">
+        <link rel="stylesheet" href="CMPT%20328%20%E2%80%94%20Logic%20lab_files/mathquill.css">
+        <script src="CMPT%20328%20%E2%80%94%20Logic%20lab_files/jquery.js"></script>
+        <script src="CMPT%20328%20%E2%80%94%20Logic%20lab_files/mathquill.js"></script>
+        
+        <style>
+            div.system-spec {
+                display: inline-block;
+                border: 3px solid #008;
+                border-radius: 8px;
+                background: #eef;
+                padding: 0.5ex 2ex 0.5ex 2ex;
+                size: 80%;
+                margin-left: 0.25in;
+                margin-bottom: 0.5in;
+            }
+            
+            .prompt {
+                background: #88c;
+                color: white;
+                border: 1px solid black;
+                border-radius: 4px;
+                padding: 3px;
+                font-weight: bold;
+            }
+            
+            .extra-credit {
+                background: #88c;
+                color: #ff8;
+                border: 2px double red;
+                border-radius: 4px;
+                padding: 3px;
+                font-weight: bold;
+            }                
+            
+            .steps li {
+                margin-bottom: 1ex;
+            }
+            
+            h3 {
+                margin-top: 1in;
+            }
+            
+            #language-selector {
+                font-size: 125%;
+                margin-left: 0.5in;
+                margin-right: 0.5in;
+                padding: 2ex;
+                background: rgba(0, 181, 226, 0.1);
+                border: 2px solid rgba(0, 181, 226, 0.5);
+                text-align: center;
+            }
+            
+            #language-selector input[type=radio] {
+                display: none;
+            }
+            
+            #language-selector label {
+                display: inline-block;
+                margin-top: 1ex;
+                margin-left: 4ex;
+                margin-right: 4ex;
+                padding: 10px 50px;
+                border-radius: 10px;
+                text-align: center;
+                border: 2px solid #fff0;
+            }
+            
+            #language-selector input[type=radio]:checked + label {
+                background: rgba(144, 99, 205, 0.5);
+                border-left: 2px solid rgba(144, 99, 205, 0.3);
+                border-top: 2px solid rgba(144, 99, 205, 0.3);
+                border-right: 2px solid rgba(144, 99, 205, 0.8);
+                border-bottom: 2px solid rgba(144, 99, 205, 0.8);
+            }
+            
+            #language-selector input[type=radio]:not(:checked) + label:hover {
+                background: rgba(144, 99, 205, 0.2);
+            }
+            
+            .hidden {
+                display: none;
+            }
+            
+            .bg-logo {
+                position: fixed;
+                right: 15px;
+                bottom: 15px;
+                z-index: -1;
+            }
+            
+            .bg-logo img {
+                width: 256px;
+                filter: opacity(40%);
+            }
+            
+            pre {
+                margin-left: 0.5in;
+                margin-right: 0.5in;
+                padding-left: 5ex;
+                padding-right: 5ex;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="bg-logo language java">
+            <img src="CMPT%20328%20%E2%80%94%20Logic%20lab_files/java-logo.png">
+        </div>
+        <div class="bg-logo language python hidden">
+            <img src="CMPT%20328%20%E2%80%94%20Logic%20lab_files/python-logo.png">
+        </div>
+    
+        <h1>Digital logic lab</h1>
+        <h2>CMPT 328 — Spring 2019</h2>
+        <hr>
+        
+        <h3>Getting started</h3>
+        <p>
+            Please find one other person to work with on this lab. (You 
+will have the option of doing either Java or Python programming so I 
+recommend that you make certain at least one of you is comfortable in 
+one of these languages.) If you are the odd one out, Kathy will put you 
+in a group. On this lab you are turning in code only, so you will not 
+need a Google Doc.
+        </p>
+        
+        <p>
+            During this lab you will be working with a set of classes 
+Kathy has made to model combinational circuits. If you choose to use 
+Java you will need the Java Development Kit version 8 or higher and 
+whatever tools you prefer for writing and compiling Java code. If you 
+prefer Python then you will need a Python 3 interpreter and an editor.
+        </p>
+        
+        <div id="language-selector">
+            Which language would you like to use? (The content of the rest of this page will change based on which you choose.)
+            <div>
+                <input type="radio" name="language" value="java" id="select-java" checked="checked"><label for="select-java"><img src="CMPT%20328%20%E2%80%94%20Logic%20lab_files/java-logo.png" width="64" height="64"><br>Java</label>
+                <input type="radio" name="language" value="python" id="select-python"><label for="select-python"><img src="CMPT%20328%20%E2%80%94%20Logic%20lab_files/python-logo.png" width="64" height="64"><br>Python</label>
+            </div>
+        </div>
+        
+        <p class="language python hidden" style="background: rgba(255, 0, 0, 0.15); border: 3px solid rgba(255, 50, 50, 0.8); border-radius: 10px; padding: 2ex;">
+            <strong>Note that you are using the Python version of the library at your own risk;</strong>
+ it was a last-minute addition and is neither as robust nor as 
+well-tested as the main (Java) version. Due to time constraints it also 
+does not have documentation, so you will have to use the Java version. 
+(However Kathy did run through the lab using Python and it worked just 
+fine.) It is also not very “Pythonic,” being as closely as possible a 
+mirror of the Java one so that the same instructions and documentation 
+(mostly) apply to both.
+        </p>
+        
+        <p>
+            Begin by downloading the code from <a class="language java" href="http://people.westminstercollege.edu/faculty/klenth/2019spring/cmpt328/lab/logic/logic-src.zip">here</a><a class="language python hidden" href="http://people.westminstercollege.edu/faculty/klenth/2019spring/cmpt328/lab/logic/pylogic-src.zip">here</a>. You should take a few minutes with your partner and check out the <a href="http://people.westminstercollege.edu/faculty/klenth/2019spring/cmpt328/lab/logic/java-doc">documentation</a> for the logic library. In particular, the classes you will be using most include
+        </p>
+        <ul>
+            <li><code>Bit</code> — represents a low voltage (0) or high voltage (1);</li>
+            <li><code>Line</code> — a single line or piece of wire that can carry a bit;</li>
+            <li><code>MultiLine</code> — a grouping of multiple lines (e.g. a <code>MultiLine</code> of 64 lines could carry a 64-bit number);</li>
+            <li><code>InputLine</code> — can be connected to another <code>Line</code>, in which case it gets its state from the connected line;</li>
+            <li><code>InputMultiLine</code> — can be connected to another <code>MultiLine</code> (or its individual <code>InputLine</code>s can be individually connected);</li>
+            <li><code>NumberFormat</code> — a way of representing numbers (for purposes of this lab, integers only) in bits;</li>
+            <li><code>NotGate</code>, <code>AndGate</code>, <code>OrGate</code>, and so on — each has one or more <code>InputLine</code>s to be connected to other circuit elements and counts as a <code>Line</code> itself.</li>
+        </ul>
+        <p>
+            In this assignment you have been given the source code for 
+the entire library. Feel free to examine it when needed to understand 
+how it works.
+        </p>
+        
+        <p>
+            The overall goal of this lab is to <strong>build a 64-bit adder (for extra credit, an adder-subtracter) out of basic logic gates.</strong>
+ Such a circuit performs the same essential function as the adder 
+present in the CPU(s) in the computer you are viewing this document on 
+(but won't be implemented quite as efficiently!). The steps below will 
+walk you through doing this in a modular fashion.
+        </p>
+        
+        <h3>Submitting this lab</h3>
+        <p>
+            Unlike the previous lab, this one is mostly about writing some code. Your submission for this lab will consist of <span class="language java">your .java files for all your adders</span><span class="language python hidden">your <code>adders.py</code> file containing all your adders</span>. <strong>Make sure every class has a comment before it saying who worked on it.</strong>
+ If you are unable to finish the lab during class time, you can work on 
+it with your partner outside class or do it individually. <strong>Everyone
+ needs to turn in all the files for lab credit, so make sure that you 
+and your lab partner both have everything before leaving class today!</strong>
+        </p>
+        
+        <h3>Step 0: Test that the library is usable</h3>
+        <p>
+            Let's first double-check that you can actually use the code! In your favorite editor, put the following code:
+        </p>
+        <pre class="language java"><code class="highlight" data-language="java"><span class="line-comment">// Step0.java<br></span>
+<span class="keyword">import</span> edu.westminstercollege.cmpt328.logic.*;
+<span class="keyword">import</span> edu.westminstercollege.cmpt328.logic.gates.*;
+
+<span class="keyword">public</span> <span class="keyword">class</span> Step0 {
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String... args) {
+        <span class="line-comment">// Make an AND gate and connect some stuff to it<br></span>        AndGate gate = <span class="keyword">new</span> AndGate();
+        gate.A.connect(Line.GROUND);
+        gate.B.connect(Line.CURRENT);
+        
+        System.out.println(gate.getState());
+    }
+}
+        </code></pre>
+        <pre class="language python hidden"><code class="highlight" data-language="python"><span class="line-comment"># step0.py<br></span>
+<span class="keyword">from</span> cmpt328.logic.gates <span class="keyword">import</span> *
+
+
+<span class="keyword">def</span> main():
+    gate = AndGate()
+    gate.A.connect(Ground())
+    gate.B.connect(Current())
+
+    print(gate.getState())
+    
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    main()
+        </code></pre>
+        <p>
+            Check that you can <span class="language java">compile and</span> run this program; it should print out simply <code>0</code>. Once that's going, test that you understand how this code works — make it print out <code>1</code> by changing which kind of gate is used, then make it <code>0</code> again by changing the inputs.
+        </p>
+        
+        <h3>Step 1: Build a half-adder</h3>
+        <p>
+            A half-adder has two inputs (A and B, the two one-bit 
+numbers to add) and two outputs (SUM and C, the sum and the carry-out). <strong>Your half-adder must use exactly these names as otherwise it will break the tester.</strong> It is wired as follows:
+        </p>
+        <img src="CMPT%20328%20%E2%80%94%20Logic%20lab_files/half_adder.png" class="indented">
+        
+        <p>
+            You will write a <span class="language java">Java</span><span class="language python hidden">Python</span> class representing a half-adder. Start off with the following skeleton:
+        </p>
+        <pre class="language java"><code class="highlight" data-language="java"><span class="line-comment">// HalfAdder.java<br></span>
+<span class="keyword">import</span> edu.westminstercollege.cmpt328.logic.*;
+<span class="keyword">import</span> edu.westminstercollege.cmpt328.logic.gates.*;
+
+<span class="keyword">public</span> <span class="keyword">class</span> HalfAdder {
+
+    <span class="line-comment">// Inputs to the circuit: InputLines<br></span>    <span class="keyword">public</span> <span class="keyword">final</span> InputLine A = <span class="keyword">new</span> InputLine();
+    <span class="keyword">public</span> <span class="keyword">final</span> InputLine B = <span class="keyword">new</span> InputLine();
+    
+    <span class="line-comment">// Outputs of the circuit: Lines (initialize in constructor)<br></span>    <span class="keyword">public</span> <span class="keyword">final</span> Line SUM;
+    <span class="keyword">public</span> <span class="keyword">final</span> Line C;
+    
+    <span class="keyword">public</span> HalfAdder() {
+        <span class="line-comment">// Put code here that creates the needed logic gates and connects them to the inputs<br></span>        
+        <span class="line-comment">// Your code should finish with...<br></span>        SUM = ...; <span class="line-comment">// one of the gates you created above<br></span>        C = ...;   <span class="line-comment">// one of the gates you created above<br></span>    }
+}</code></pre>
+        <pre class="language python hidden"><code class="highlight" data-language="python"><span class="line-comment"># adders.py<br></span>    
+<span class="keyword">from</span> cmpt328.logic <span class="keyword">import</span> *
+<span class="keyword">from</span> cmpt328.logic.gates <span class="keyword">import</span> *
+    
+<span class="keyword">class</span> HalfAdder:
+
+    <span class="keyword">def</span> __init__(<span class="keyword">self</span>):
+        <span class="line-comment"># Inputs to the circuit: InputLines<br></span>        <span class="keyword">self</span>.A = InputLine()
+        <span class="keyword">self</span>.B = InputLine()
+        
+        <span class="line-comment"># Put code here that creates the needed logic gates and connects them to the inputs<br></span>        
+        <span class="line-comment"># Your code should finish with definitions of the outputs:<br></span>        <span class="keyword">self</span>.SUM = ...  <span class="line-comment"># one of the gates you created above<br></span>        <span class="keyword">self</span>.C = ...    <span class="line-comment"># one of the gates you created above<br></span></code></pre>
+
+        <p class="language java">
+            Against usual Java convention we are using public instance 
+variables here, but since they're final outside code will not be allowed
+ to reassign them. Making them public like this will mean less typing 
+later on when we're using HalfAdders to build bigger circuits!
+        </p>
+        
+        <p>
+            After you're satisfied that your code seems to work, run the included <code><span class="language java">TestHalfAdder.java</span> <span class="language python hidden">test-half-adder.py</span></code> to check. Depending on how well you did you will see one of five things happen:
+            </p><ul>
+                <li>Syntax errors in your half adder — well, you know what to do about that!</li>
+                <li>Syntax errors in the tester <span class="language java">(fails to compile)</span> <span class="language python hidden">(fails to run)</span> — this is probably because something is named incorrectly in your half adder (the class must be called exactly <code>HalfAdder</code> and the input and output lines need to be named exactly as above). <span class="language python hidden">Or
+ it could be because you passed an argument or made an assignment with a
+ value of the wrong type — always a possibility in Python.</span></li>
+                <li>The tester runs but an <code>UnconnectedLineException</code> is <span class="language java">thrown</span> <span class="language python hidden">raised</span> — you failed to connect something to something in your half adder. Double-check that all inputs of all gates are <code>connect()</code>ed and you assigned to the adder's <code>SUM</code> and <code>C</code> outputs.</li>
+                <li>The tester runs without exception but prints out 
+messages that something gave the wrong result — you need to revisit your
+ half adder and make sure you are using the right gates and they are 
+connected to the right things.</li>
+                <li>The tester runs and reports that everything is good — you're ready to move on to the next step!</li>
+            </ul>
+        <p></p>
+        
+        <h3>Step 2: Full adder</h3>
+        <p>
+            With the half-adder complete and tested we can move on to 
+the full adder. A full adder has three inputs: A, B, and Cin, the 
+carry-in; its outputs are SUM and Cout, the carry-out. A full adder 
+contains two half-adders which are wired as follows.
+        </p>
+        <img src="CMPT%20328%20%E2%80%94%20Logic%20lab_files/full_adder.png" class="indented">
+        <p>
+            Make a class <code>FullAdder</code> along the same lines as <code>HalfAdder</code> <span class="language python hidden">(put it in <code>adders.py</code> alongside your half adder)</span>.
+ This will be very similar to the half adder; the SUM output of the 
+overall circuit should be the same as the SUM output of the second half 
+adder. Again, make sure that all lines of your full adder are named 
+exactly as given here so that the tester works.
+        </p>
+        
+        <p>
+            Once you have your full adder written, run it through the tester <span class="language java">(<code>TestFullAdder.java</code>)</span> <span class="language python hidden">(<code>test-full-adder.py</code>)</span>; don't move on until you have it 100% working since the multi-bit adders to come will use your full adder.
+        </p>
+        
+        <h3>Step 3: Four-bit adder</h3>
+        <p>
+            The remaining steps of this lab will use <code>MultiLine</code>s since we're dealing with multi-bit quantities (represented by multiple lines grouped together). Start by defining an <code>Adder4</code> class which will have the following inputs and outputs:
+        </p>
+        <ol>
+            <li>A and B, the numbers to add — <code>InputMultiLine</code>s of four lines each;</li>
+            <li>SUM, the result of addition — a <code>MultiLine</code> of four lines;</li>
+            <li>Cin, the carry-in — an <code>InputLine</code>;</li>
+            <li>Cout, the carry-out — a <code>Line</code>.</li>
+        </ol>
+        <p>
+            Your class will create four <code>FullAdder</code>s to 
+perform each of the four bits of addition and each bit's carry out 
+should be connected to the next bit's carry in. You can use <code>getLine()</code>
+ methods of the A and B multi-lines to get the individual lines to be 
+plugged into the adders. To create the SUM output you will need to group
+ together the outputs of the adders; use the static <code>MultiLine.of()</code> method to accomplish this.
+        </p>
+        <p>
+            When you are done coding your four-bit adder, run the tester and make sure it works before moving on.
+        </p>
+        
+        <h3>Step 4: 16-bit adder</h3>
+        <p>
+            Make an <code>Adder16</code> class; it will be built out of four <code>Adder4</code>s.
+ The A and B inputs and SUM output will now each consist of 16 lines. 
+You will need to pull out groups of 4 lines from A and B; you can do 
+this using the <code>MultiLine.lineRange()</code> method. On the other hand, for the SUM output you will have to couple together four groups of four lines, which is what the <code>MultiLine.join()</code> method is for.
+        </p>
+        <p>
+            Write the code, test it, and move on.
+        
+        </p><h3>Step 5: 64-bit adder</h3>
+        <p>
+            By this point you know the drill pretty well! Build an <code>Adder64</code> out of four <code>Adder16</code>s and test it.
+        </p>
+        
+        <h3>Step 6 (extra credit): 64-bit adder-subtracter</h3>
+        <p>
+            For a little extra credit, create an <code>AdderSubtracter64</code> class that performs 64-bit addition and subtraction using an <code>Adder64</code>.
+ Like the adder it should have 64-bit lines for A, B, and SUM and a Cout
+ line; unlike the adder it will not have Cin, but rather a SUB line that
+ will be set to 1 to request subtraction (0 for addition).
+        </p>
+        <p>
+            Subtracting just means adding the negative, so when SUB is 1
+ your circuit needs to negate B. In 2s complement this means that it 
+needs to have its bits flipped and then 1 added to the result. The 
+easiest way to do this is to filter every B line through a XOR gate 
+whose other input is the SUB line before it enters the adder; then set 
+the adder's Cin to the SUB line so that the circuit is adding an extra 1
+ when the SUB operation is selected.
+        </p>
+        <p>
+            Test your adder-subtracter by writing some code yourself. 
+Refer to the other adder testers for some example code on how to set 
+this up. Your tester should do at least eight calculations to cover the 
+cases of adding and subtracting every possible combination of positive 
+and negative numbers. Also make sure at least a few of these are large 
+enough to overflow.
+        </p>
+
+        <x-toolbox class="open" id="base-toolbox" data-title="Handy base converter"><x-title>Handy base converter</x-title>
+            <div class="content">
+                <span style="font-size: 80%;">(Not that you'll need it....)</span>
+                <style>
+                    #base-toolbox input {
+                        text-align: center;
+                        border: 1px solid #88c;
+                    }
+                </style>
+                <table>
+                    <tbody><tr>
+                        <td style="text-align: right; padding-right: 2ex; font-size: 80%;">Decimal:</td>
+                        <td><input type="text" data-base="10" pattern="(,|[0-9])*" value="0" size="30"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; padding-right: 2ex; font-size: 80%;">Hexadecimal:</td>
+                        <td><input type="text" data-base="16" pattern=" *(0[xX])?[ 0-9a-fA-F]*" value="0" size="30"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right; padding-right: 2ex; font-size: 80%;">Binary:</td>
+                        <td><input type="text" data-base="2" pattern="[ 01]*" value="0" size="30"></td>
+                    </tr>
+                </tbody></table>
+            </div>
+        </x-toolbox>
+        
+        <script>
+            "use strict";
+            (function () {
+                var MQ = MathQuill.getInterface(2);
+                var math_elems = document.querySelectorAll(".math");
+                for (var i = 0; i < math_elems.length; ++i) {
+                    MQ.StaticMath(math_elems[i]);
+                }
+            })();
+            
+            (function() {
+                var sum_points_elems = document.querySelectorAll("x-points[sum]");
+                console.log(sum_points_elems.length + " x-points sums");
+                for (var i = 0; i < sum_points_elems.length; ++i) {
+                    var sum_points_elem = sum_points_elems[i];
+                    var li_parent = sum_points_elem;
+                    while (li_parent !== undefined && li_parent.nodeName !== "LI")
+                        li_parent = li_parent.parentElement;
+                    var child_points_elems = li_parent.querySelectorAll("x-points");
+                    console.log("x-points sum #" + i + " has " + child_points_elems.length + " children");
+                    
+                    var total_points = 0;
+                    for (var j = 0; j < child_points_elems.length; ++j) {
+                        var child_points_elem = child_points_elems[j];
+                        if (child_points_elem === sum_points_elem)
+                            continue;
+                        else
+                            total_points += parseInt(child_points_elem.innerHTML);
+                    }
+                    
+                    sum_points_elem.innerHTML = "" + total_points;
+                }
+            })();
+            
+            (function() {
+                var baseBoxes = document.querySelectorAll("#base-toolbox input[data-base]");
+                for (var i = 0; i < baseBoxes.length; ++i) {
+                    baseBoxes[i].addEventListener("input", function(e) {
+                        handleBaseBox(e.target);
+                    });
+                }
+                
+                function handleBaseBox(box) {
+                    var regex = new RegExp("^" + box.getAttribute("pattern") + "$");
+                    var base = parseInt(box.dataset.base) || 10;
+                    
+                    // Is the input valid?
+                    var input = box.value;
+                    if (regex.test(input)) {
+                        var value = parseNumber(input, base);
+                        for (var i = 0; i < baseBoxes.length; ++i) {
+                            if (baseBoxes[i] !== box) {
+                                var outBox = baseBoxes[i];
+                                var boxBase = parseInt(outBox.dataset.base) || 10;
+                                var convertedNumber = numberToBase(value, boxBase);
+                                outBox.value = convertedNumber;
+                            }
+                        }
+                    } else {
+                        // Invalid input - clear all the boxes
+                        for (var i = 0; i < baseBoxes.length; ++i) {
+                            if (baseBoxes[i] !== box)
+                                baseBoxes[i].value = "";
+                        }
+                    }
+                }
+                
+                function digitValue(digit, base) {
+                    var value;
+                    if ("0" <= digit && digit <= "9")
+                        value = parseInt(digit);
+                    else if ("a" <= digit && digit <= "z")
+                        value = digit.charCodeAt(0) - "a".charCodeAt(0) + 10;
+                    return (value >= 0 && value < base) ? value : undefined;
+                }
+                
+                function digitString(digit) {
+                    if (digit < 10)
+                        return String.fromCharCode("0".charCodeAt(0) + digit);
+                    else
+                        return String.fromCharCode("a".charCodeAt(0) + (digit - 10));
+                }
+                
+                function parseNumber(text, base) {
+                    text = text.toLowerCase();
+                    var value = 0;
+                    for (var i = 0; i < text.length; ++i) {
+                        var dv = digitValue(text.charAt(i), base);
+                        if (dv !== undefined)
+                            value = value * base + dv;
+                    }
+                    
+                    return value;
+                }
+                
+                function numberToBase(value, base) {
+                    if (value === 0)
+                        return "0";
+                    var grouping = (base == 10) ? 3 : 4;
+                    var separator = (base == 10) ? "," : " ";
+                    
+                    var originalValue = value;
+                    var output = "";
+                    var digits = 0;
+                    while (value !== 0) {
+                        var dig = value % base;
+                        value = Math.trunc(value / base);
+                        output = digitString(dig) + output;
+                        ++digits;
+                        if ((base == 10 && digits % grouping == 0 && value != 0 && originalValue >= 10000)
+                                || (base != 10 && digits % grouping == 0 && value != 0))
+                            output = separator + output;
+                    }
+                    
+                    return output;
+                }
+            })();
+            
+            (function() {
+                function setLanguage(language) {
+                    localStorage.setItem("language", language);
+                    var langItems = document.querySelectorAll(".language");
+                    for (var i = 0; i < langItems.length; ++i) {
+                        var item = langItems[i];
+                        if (item.classList.contains(language))
+                            item.classList.remove("hidden");
+                        else
+                            item.classList.add("hidden");
+                    }
+                }
+            
+                var langOptions = document.querySelectorAll("#language-selector input[type=radio]");
+                for (var i = 0; i < langOptions.length; ++i) {
+                    var langOption = langOptions[i];
+                    langOption.addEventListener("change", function(e) {
+                        if (e.target.checked) {
+                            var lang = e.target.value;
+                            setLanguage(lang);
+                        }
+                    });
+                }
+                
+                var initLang = localStorage.getItem("language") || "java";
+                var radio = document.querySelector("#language-selector input[type=radio][value=" + initLang + "]");
+                if (radio !== undefined) {
+                    radio.checked = true;
+                    setLanguage(initLang);
+                }
+                
+            })();
+        </script>
+        
+        <script src="CMPT%20328%20%E2%80%94%20Logic%20lab_files/highlighting.js"></script>
+        <script src="CMPT%20328%20%E2%80%94%20Logic%20lab_files/toolbox.js"></script>
+    
+
+
+</body></html>

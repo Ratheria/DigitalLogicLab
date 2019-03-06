@@ -1,0 +1,210 @@
+body {
+    font-family: Quercus;
+    text-justify: auto;
+    text-align: justify;
+}
+
+code, tt, pre {
+    font-family: Hack;
+}
+
+.problem_list > li {
+    margin-bottom: 1ex;
+}
+
+.problem_list > li:hover {
+    background: #f4f4ff;
+    border-radius: 5px;
+}
+
+ol.alpha {
+    list-style-type: lower-alpha;
+}
+
+.dotted {
+    border: 1px dotted #c8c;
+    border-radius: 5px;
+}
+
+.interlude {
+    border: 3px solid #008;
+    border-radius: 8px;
+    background: #eef;
+    padding: 0.5ex 2ex 0.5ex 2ex;
+    size: 80%;
+    /*margin-left: -0.25in;*/
+    margin-top: 0.5in;
+    margin-bottom: 0.5in;
+}
+
+pre {
+    background: #333;
+    color: #ccc;
+    border: 1px solid #888;
+    border-radius: 5px;
+    padding: 1ex;
+}
+
+table.top-header {
+    border-collapse: collapse;
+}
+
+table.left-header {
+    border-collapse: collapse;
+}
+
+table.top-header th[scope=col] {
+    border-bottom: 1px solid black;
+    padding-right: 1ex;
+    padding-left: 1ex;
+}
+
+table.left-header th[scope=row] {
+    border-right: 1px solid black;
+    padding-right: 2ex;
+}
+
+table.center td, table.center th {
+    text-align: center;
+}
+
+table.left td, table.left th {
+    text-align: left;
+}
+
+table.right td, table.right th {
+    text-align: right;
+}
+
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.indented {
+    margin-left: 0.5in;
+}
+
+x-points::before {
+/*    content: "[";*/
+    content: "";
+}
+
+x-points::after {
+    content: " points";
+    font-weight: normal;
+}
+
+x-points[singular]::after {
+    content: " point";
+    font-weight: normal;
+}
+
+x-points, x-points::before, x-points::after {
+    font-size: 80%;
+    background: #0055ff;
+    color: white;
+    border-radius: 3px;
+}
+
+x-points {
+    font-weight: bold;
+    border-radius: 3px;
+    border-bottom: 1px solid #038;
+    border-right: 1px solid #038;
+    border-left: 1px solid #48f;
+    border-top: 1px solid #48f;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+x-toolbox {
+    position: fixed;
+    right: 1ex;
+    top: 1ex;
+    border: 1px solid #aaaaff;
+    padding: 1ex;
+    background: white;
+    border-radius: 2px;
+}
+
+x-toolbox x-title {
+    cursor: default;
+}
+
+x-toolbox .content {
+    display: none;
+    font-size: 80% !important;
+}
+
+x-toolbox.open .content {
+    display: initial;
+}
+
+input:invalid {
+    color: red;
+}
+
+ol ol {
+    list-style-type: lower-alpha;
+}
+
+ol ol ol {
+    list-style-type: lower-roman;
+}
+
+@font-face {
+    font-family: Quercus;
+    src: url(../Quercus.ttf);
+}
+
+@font-face {
+    font-family: Quercus;
+    src: url(../Quercus_Bold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Quercus;
+    src: url(../Quercus_It.ttf);
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Quercus;
+    src: url(../Quercus_Bold_It.ttf);
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Hack;
+    src: url(../Hack-Regular.ttf);
+}
+
+@font-face {
+    font-family: Hack;
+    src: url(../Hack-Bold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Hack;
+    src: url(../Hack-Italic.ttf);
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Hack;
+    src: url(../Hack-BoldItalic.ttf);
+    font-weight: bold;
+    font-style: italic;
+}
+
